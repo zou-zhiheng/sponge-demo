@@ -84,6 +84,22 @@ func TestScheduler(t *testing.T) {
 
 }
 
+func TestScheduler_GetOptimalHost(t *testing.T) {
+	s := NewScheduler()
+	//获取最优主机
+	host, vhost, err := s.GetOptimalHost(pod, vHost, VHostWeight)
+	if err != nil {
+		fmt.Println("GetOptimalHost===>\n", err)
+		for i := range vhost { //打印主机可用端口范围，其他占用信息在ssh登录时已知
+			fmt.Println(vhost[i].IP, vHost[i].Filter.PortFree)
+		}
+		return
+	}
+
+	fmt.Println("GetOptimalHost===>OK", host)
+
+}
+
 func TestSchedulerDemo(t *testing.T) {
 	s := NewScheduler()
 	//获取主机信息

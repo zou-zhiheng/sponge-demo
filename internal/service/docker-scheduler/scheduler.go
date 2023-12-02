@@ -41,7 +41,6 @@ func NewScheduler() *Scheduler {
 
 // 获取硬件分数
 func (s *Scheduler) GetHardwareScore(pod VHost, vHost []VHost, vHostWeight map[VHostResource]float64) ([]VHost, error) {
-	defer Logger("GetHardwareScore")()
 
 	//Pod和vHost默认不为空
 	var res []VHost
@@ -87,6 +86,34 @@ func (s *Scheduler) GetHardwareScore(pod VHost, vHost []VHost, vHostWeight map[V
 	}
 
 	return res, nil
+}
+
+// 获取最优主机
+func (s *Scheduler) GetOptimalHost(pod VHost, vHost []VHost, vHostWeight map[VHostResource]float64) (string, []VHost, error) {
+	defer Logger("GetOptimalHost")()
+
+	//pod默认不为空
+	if len(vHost) == 0 || len(vHostWeight) == 0 {
+		return "", nil, errors.New("所拥有的主机信息和主机资源权重不能为空")
+	}
+
+	//获取硬件得分
+	vh, err := s.GetHardwareScore(pod, vHost, VHostWeight)
+	if err != nil {
+		return "", nil, err
+	}
+
+	//根据主机规则过滤
+	hosts, err := s.GetVHostByFilter(pod, vh)
+	if err != nil {
+		return "", hosts, err
+	}
+
+	if len(hosts) != 0 { //hosts已根据硬件得分排序
+		return hosts[0].IP, nil, nil
+	}
+
+	return "", nil, errors.New("无符合条件主机")
 }
 
 // 获取主机信息，作为公共包时应该删除这个方法

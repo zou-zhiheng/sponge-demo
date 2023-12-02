@@ -9,8 +9,6 @@ import (
 // 根据规则过滤不适合的主机
 func (s *Scheduler) GetVHostByFilter(pod VHost, vHost []VHost) ([]VHost, error) {
 
-	defer Logger("GetVHostByFilter")()
-
 	var res, lost []VHost
 	var found bool //当前主机是否满足Pod所需资源,主机是否拥有pod资源项
 	for i := range vHost {
