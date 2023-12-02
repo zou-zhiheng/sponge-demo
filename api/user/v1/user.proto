@@ -1,0 +1,134 @@
+syntax = "proto3";
+
+package api.user.v1;
+
+import "api/types/types.proto";
+//import "validate/validate.proto";
+
+option go_package = "user/api/user/v1;v1";
+
+service user {
+  // create user
+  rpc Create(CreateUserRequest) returns (CreateUserReply) {}
+
+  // delete user by id
+  rpc DeleteByID(DeleteUserByIDRequest) returns (DeleteUserByIDReply) {}
+
+  // delete user by batch id
+  rpc DeleteByIDs(DeleteUserByIDsRequest) returns (DeleteUserByIDsReply) {}
+
+  // update user by id
+  rpc UpdateByID(UpdateUserByIDRequest) returns (UpdateUserByIDReply) {}
+
+  // get user by id
+  rpc GetByID(GetUserByIDRequest) returns (GetUserByIDReply) {}
+
+  // get user by condition
+  rpc GetByCondition(GetUserByConditionRequest) returns (GetUserByConditionReply) {}
+
+  // list of user by batch id
+  rpc ListByIDs(ListUserByIDsRequest) returns (ListUserByIDsReply) {}
+
+  // list of user by query parameters
+  rpc List(ListUserRequest) returns (ListUserReply) {}
+}
+
+// Some notes on defining fields under message:
+// Fill in the validate rules https://github.com/envoyproxy/protoc-gen-validate#constraint-rules
+
+message CreateUserRequest {
+	string name = 1; 
+	string account = 2; 
+	string password = 3; 
+	string salt = 4; 
+	string sex = 5; 
+	int32 age = 6; 
+	string createTime = 7;
+	string updateTime = 8;
+	int32 valid = 9; 
+}
+
+message CreateUserReply {
+  uint64   id =1;
+}
+
+message DeleteUserByIDRequest {
+  uint64   id =1;
+}
+
+message DeleteUserByIDReply {
+
+}
+
+message DeleteUserByIDsRequest {
+  repeated uint64 ids = 1;
+}
+
+message DeleteUserByIDsReply {
+
+}
+
+message UpdateUserByIDRequest {
+	uint64 id = 1; 
+	string name = 2; 
+	string account = 3; 
+	string password = 4; 
+	string salt = 5; 
+	string sex = 6; 
+	int32 age = 7; 
+	string createTime = 8;
+	string updateTime = 9;
+	int32 valid = 10; 
+}
+
+message UpdateUserByIDReply {
+
+}
+
+message User {
+	uint64 id = 1; 
+	string name = 2; 
+	string account = 3; 
+	string password = 4; 
+	string salt = 5; 
+	string sex = 6; 
+	int32 age = 7; 
+	string createTime = 8;
+	string updateTime = 9;
+	int32 valid = 10; 
+}
+
+message GetUserByIDRequest {
+  uint64   id =1;
+}
+
+message GetUserByIDReply {
+  User user = 1;
+}
+
+message GetUserByConditionRequest {
+  types.Conditions conditions = 1;
+}
+
+message GetUserByConditionReply {
+  User user = 1;
+}
+
+message ListUserByIDsRequest {
+  repeated uint64 ids = 1;
+}
+
+message ListUserByIDsReply {
+  repeated User users = 1;
+}
+
+message ListUserRequest {
+  types.Params params = 1;
+}
+
+message ListUserReply {
+  int64 total =1;
+  repeated User users = 2;
+}
+
+

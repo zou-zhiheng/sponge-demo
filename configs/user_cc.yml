@@ -1,0 +1,12 @@
+# Generate the go struct command: sponge config --server-dir=./serverDir
+
+# nacos settings
+nacos:
+  ipAddr: "127.0.0.1"    # server address
+  port: 8848                      # listening port
+  scheme: "http"               # http or https
+  contextPath: "/nacos"     # path
+  namespaceID: "6d617f7a-fcd2-4924-a541-aae176275dca" # namespace id
+  group: "dev"                    # group name: dev, prod, test
+  dataID: "user.yml"  # config file id
+  format: "docker-compose-yaml"                 # configuration file type: json,docker-compose-yaml,toml

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://raw.githubusercontent.com/zhuxiujia/GoMybatis/master/mybatis-3-mapper.dtd">
+<mapper>
+    <!--logic_enable 逻辑删除字段-->
+    <!--logic_deleted 逻辑删除已删除字段-->
+    <!--logic_undelete 逻辑删除 未删除字段-->
+    <!--version_enable 乐观锁版本字段,支持int,int8,int16,int32,int64-->
+    <resultMap id="BaseResultMap" tables="user">
+        <result column="id" langType="int64"/>
+        <result column="account" langType="string"/>
+        <result column="password" langType="string"/>
+        <result column="salt" langType="string"/>
+        <result column="name" langType="string"/>
+        <result column="sex" langType="string"/>
+        <result column="age" langType="int"/>
+        <result column="create_time" langType="string"/>
+        <result column="update_time" langType="string"/>
+    </resultMap>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        <!--    <select id="selectById">-->
+        select * from user where id=#{id}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        select * from user
+    </select>
+
+    <insert id="insert">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != nil">id,</if>
+            <if test="name != nil">name,</if>
+            <if test="sex != nil">sex,</if>
+            <if test="age != nil">age,</if>
+            <if test="createTime != nil">createTime</if>
+        </trim>
+
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != nil">#{id},</if>
+            <if test="name != nil">#{name},</if>
+            <if test="sex != nil">#{sex},</if>
+            <if test="age != nil">#{age},</if>
+            <if test="createTime != nil">#{createTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateById">
+        update user
+        <set>
+            <if test="name != nil">name = #{name},</if>
+            <if test="age != nil">age = #{age},</if>
+            <if test="sex != nil">sex = #{sex}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        delete from user where id = #{id}
+    </delete>
+
+    <select id="joinTest">
+
+    </select>
+
+
+</mapper>
